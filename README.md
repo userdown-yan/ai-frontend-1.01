@@ -1,38 +1,34 @@
-# ai-frontend
+# Growth OS - AI 对话与个人成长中枢
 
-This template should help get you started developing with Vue 3 in Vite.
+基于 Vue3 + Spring Boot 开发的全栈项目，支持账号体系、AI 对话、个人收藏与任务管理。
 
-## Recommended IDE Setup
+---
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## 📸 项目截图展示
+### 功能界面 1
+![功能界面1](images/屏幕截图 2026-05-18 222919.png)
 
-## Recommended Browser Setup
+### 功能界面 2
+![功能界面2](images/屏幕截图 2026-05-18 222929.png)
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+### 功能界面 3
+![功能界面3](images/屏幕截图 2026-05-18 222935.png)
 
-## Customize configuration
+### 功能界面 4
+![功能界面4](images/屏幕截图 2026-05-18 222939.png)
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+### 功能界面 5
+![功能界面5](images/屏幕截图 2026-05-18 222949.png)
 
-## Project Setup
+---
 
-```sh
+## 项目介绍
+- 前端：Vue3 + Vite + Element Plus
+- 后端：Spring Boot + MyBatis-Plus + MySQL
+- 核心功能：AI 对话、对话收藏、用户中心、任务管理
+
+## 快速开始
+### 前端
+```bash
 npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
 npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
