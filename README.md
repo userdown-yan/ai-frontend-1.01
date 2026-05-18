@@ -30,8 +30,6 @@
 
 ## 快速开始
 ### 前端
+```bash
 npm install
 npm run dev
-
-### 后端
-配置数据库后启动 Spring Boot 项目
