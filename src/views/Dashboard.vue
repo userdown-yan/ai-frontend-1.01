@@ -1,118 +1,166 @@
 <template>
-  <div class="dashboard">
+  <div class="dashboard-page">
+    <section class="hero">
+      <div>
+        <h1>欢迎回来，{{ userName }}</h1>
+        <p>{{ summary.todayDate }} · 你的 AI 成长中枢已就绪</p>
+      </div>
+      <el-card class="ai-advice" shadow="never">
+        <template #header>🤖 AI 今日建议</template>
+        <p>{{ summary.aiAdvice }}</p>
+      </el-card>
+    </section>
 
-    <!-- 顶部标题 -->
-    <div class="header">
-      <h2>📊 Dashboard</h2>
-      <p>你的今日成长状态</p>
-    </div>
+    <section class="metrics-grid">
+      <el-card shadow="hover">
+        <div class="metric">
+          <span>任务完成率</span>
+          <strong>{{ summary.taskCompletionRate }}%</strong>
+        </div>
+        <el-progress :percentage="summary.taskCompletionRate" />
+      </el-card>
 
-    <!-- 卡片区 -->
-    <div class="grid">
-
-      <!-- 1. 今日任务完成率 -->
-      <el-card class="card">
-        <div class="card-title">📌 今日任务完成率</div>
-
-        <el-progress
-            :percentage="72"
-            status="success"
-        />
-
-        <div class="desc">
-          比昨日提升 +12%
+      <el-card shadow="hover">
+        <div class="metric">
+          <span>专注时长</span>
+          <strong>{{ summary.focusHours }}h</strong>
         </div>
       </el-card>
 
-      <!-- 2. AI建议 -->
-      <el-card class="card">
-        <div class="card-title">🤖 AI建议</div>
-
-        <div class="ai-box">
-          今天适合专注完成高优先级任务，而不是增加新任务。
-        </div>
-
-        <el-button type="primary" size="small">
-          查看详细分析
-        </el-button>
-      </el-card>
-
-      <!-- 3. 行为统计 -->
-      <el-card class="card">
-        <div class="card-title">📈 行为统计</div>
-
-        <div class="stats">
-          <div>专注时长：3.2h</div>
-          <div>完成任务：6个</div>
-          <div>效率评分：85</div>
+      <el-card shadow="hover">
+        <div class="metric">
+          <span>习惯达成</span>
+          <strong>{{ summary.habitCompleted }}/{{ summary.habitTotal }}</strong>
         </div>
       </el-card>
 
-      <!-- 4. 快捷入口 -->
-      <el-card class="card">
-        <div class="card-title">⚡ 快捷操作</div>
-
-        <div class="actions">
-          <el-button type="primary">➕ 新建任务</el-button>
-          <el-button>🤖 询问AI</el-button>
+      <el-card shadow="hover">
+        <div class="metric">
+          <span>目标推进</span>
+          <strong>{{ summary.goalProgress }}%</strong>
         </div>
+        <el-progress :percentage="summary.goalProgress" status="success" />
+      </el-card>
+    </section>
+
+    <section class="insight-grid">
+      <el-card shadow="never">
+        <template #header>📈 本周成长趋势</template>
+        <ul>
+          <li v-for="(item, index) in summary.weeklyTrends" :key="index">{{ item }}</li>
+        </ul>
       </el-card>
 
-    </div>
+      <el-card shadow="never">
+        <template #header>⚠️ AI 风险提醒</template>
+        <ul>
+          <li v-for="(item, index) in summary.risks" :key="index">{{ item }}</li>
+        </ul>
+      </el-card>
 
+      <el-card shadow="never">
+        <template #header>✅ 今日关键动作</template>
+        <ul>
+          <li v-for="(item, index) in summary.todayActions" :key="index">{{ item }}</li>
+        </ul>
+      </el-card>
+    </section>
   </div>
 </template>
 
+<script setup>
+import { onMounted, reactive } from 'vue'
+import { ElMessage } from 'element-plus'
+import { getDashboardSummary } from '@/api/dashboard'
+
+const userName = localStorage.getItem('username') || '成长者'
+
+const summary = reactive({
+  todayDate: '-',
+  aiAdvice: '',
+  taskCompletionRate: 0,
+  focusHours: 0,
+  habitCompleted: 0,
+  habitTotal: 0,
+  goalProgress: 0,
+  weeklyTrends: [],
+  risks: [],
+  todayActions: []
+})
+
+const loadSummary = async () => {
+  try {
+    const res = await getDashboardSummary()
+    Object.assign(summary, res.data)
+  } catch (e) {
+    ElMessage.error('成长中枢加载失败')
+  }
+}
+
+onMounted(loadSummary)
+</script>
+
 <style scoped>
-.dashboard {
-  padding: 10px;
+.dashboard-page {
+  padding: 20px;
+  color: #1f2937;
+  background: #ffffff;
+  min-height: 100%;
 }
 
-/* 顶部 */
-.header {
-  margin-bottom: 20px;
-}
-
-.header h2 {
-  margin: 0;
-}
-
-/* 卡片布局 */
-.grid {
+.hero {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
 }
 
-/* 卡片 */
-.card {
-  border-radius: 14px;
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
-/* 标题 */
-.card-title {
-  font-weight: bold;
-  margin-bottom: 12px;
+.insight-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
 }
 
-/* AI建议框 */
-.ai-box {
-  background: #f5f7fb;
-  padding: 12px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  font-size: 14px;
-  color: #333;
-}
-
-/* 行为统计 */
-.stats div {
-  margin: 6px 0;
-}
-
-/* 按钮区 */
-.actions {
+.metric {
   display: flex;
-  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.metric strong {
+  color: #2563eb;
+  font-size: 22px;
+}
+
+:deep(.el-card) {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  color: #111827;
+}
+
+ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+li {
+  margin: 8px 0;
+  color: #4b5563;
+}
+
+@media (max-width: 1100px) {
+  .hero,
+  .metrics-grid,
+  .insight-grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

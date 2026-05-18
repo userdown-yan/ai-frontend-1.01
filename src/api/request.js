@@ -13,14 +13,16 @@ request.interceptors.request.use(config => {
     return config
 })
 
-// ✅ 关键修复：地址 + 参数格式 完全对齐后端
+// 聊天接口（表单格式，兼容后端 @RequestParam）
 export const chat = (message) => {
     return request.post(
         '/ai/chat/stream',
-        new URLSearchParams({ message: message }),
+        new URLSearchParams({ message }),
         { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
     )
 }
 
 export const createConversation = () => request.post('/conversation/create')
 export const getConversationList = () => request.get('/conversation/list')
+
+export default request

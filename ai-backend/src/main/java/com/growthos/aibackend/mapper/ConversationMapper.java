@@ -10,14 +10,11 @@ public interface ConversationMapper {
 
     @Insert("""
             insert into conversation
-            (user_id,title)
+            (user_id, title)
             values
-            (#{userId},#{title})
+            (#{userId}, #{title})
             """)
-    @Options(
-            useGeneratedKeys = true,
-            keyProperty = "id"
-    )
+    @Options(useGeneratedKeys = true, keyProperty = "id")
     void insert(Conversation conversation);
 
     @Select("""
@@ -26,7 +23,27 @@ public interface ConversationMapper {
             where user_id = #{userId}
             order by id desc
             """)
-    List<Conversation> findByUserId(
-            Integer userId
+    List<Conversation> findByUserId(Integer userId);
+
+    @Update("""
+            update conversation
+            set title = #{title}
+            where id = #{id}
+              and user_id = #{userId}
+            """)
+    int updateTitle(
+            @Param("id") Integer id,
+            @Param("userId") Integer userId,
+            @Param("title") String title
+    );
+
+    @Delete("""
+            delete from conversation
+            where id = #{id}
+              and user_id = #{userId}
+            """)
+    int deleteById(
+            @Param("id") Integer id,
+            @Param("userId") Integer userId
     );
 }

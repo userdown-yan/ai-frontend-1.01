@@ -4,9 +4,9 @@ import LoginView from "../views/LoginView.vue"
 import RegisterView from "../views/RegisterView.vue"
 import MainLayout from "../layouts/MainLayout.vue"
 import ChatView from "../views/ChatView.vue"
+import DashboardView from "../views/Dashboard.vue"
 
 // 页面
-const DashboardView = { template: "<div>Dashboard</div>" }
 const TasksView = { template: "<div>Tasks</div>" }
 
 const routes = [
@@ -50,12 +50,9 @@ const router = createRouter({
     routes
 })
 
-// ======================
-// 🔥 路由守卫（关键）
-// ======================
+// 路由守卫
 router.beforeEach((to, from, next) => {
     const token = localStorage.getItem("token")
-
     const publicPages = ["/login", "/register"]
 
     if (!publicPages.includes(to.path) && !token) {

@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 @RestController
 public class AiController {
 
-    private static final String VOLC_API_KEY = "";
+    private static final String VOLC_API_KEY = "0b7b821e-a6d1-433b-91e8-4cadf932f0c1";
     private static final String VOLC_API_URL = "https://ark.cn-beijing.volces.com/api/v3/chat/completions";
     private static final String MODEL = "doubao-1.5-pro";
 
